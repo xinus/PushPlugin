@@ -52,6 +52,12 @@ static char launchNotificationKey;
 	}
 }
 
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication*)application didRegisterUserNotificationSettings:(UIUserNotificationSettings*)notificationSettings {
+    [application registerForRemoteNotifications];
+}
+#endif
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
     [pushHandler didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -89,7 +95,7 @@ static char launchNotificationKey;
     //zero badge
     application.applicationIconBadgeNumber = 0;
 
-    if (self.launchNotification) {
+    if (![self.viewController.webView isLoading] && self.launchNotification) {
         PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
 		
         pushHandler.notificationMessage = self.launchNotification;
