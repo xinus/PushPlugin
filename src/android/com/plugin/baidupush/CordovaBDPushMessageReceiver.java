@@ -143,7 +143,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         }
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, messageString);
+        //updateContent(context, messageString);
     }
 
     /**
@@ -170,10 +170,41 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
             JSONObject customJson = null;
             try {
                 customJson = new JSONObject(customContentString);
+                
+                /*{
+        			"title": "$(title)",
+        			"body": "$(body)",
+        			"type": "$(type)",
+        			"parameters": "$(parameters)"
+         		}*/
+                Bundle extras = new Bundle();
+                
                 String myvalue = null;
-                if (!customJson.isNull("mykey")) {
-                    myvalue = customJson.getString("mykey");
+                if (!customJson.isNull("title")) {
+                    myvalue = customJson.getString("title");
+                    extras.putString("title", myvalue);
                 }
+                
+                if (!customJson.isNull("body")) {
+                    myvalue = customJson.getString("body");
+                    extras.putString("body", myvalue);
+                }
+                
+                if (!customJson.isNull("type")) {
+                    myvalue = customJson.getString("type");
+                    extras.putString("type", myvalue);
+                }
+                
+                if (!customJson.isNull("parameters")) {
+                    myvalue = customJson.getString("parameters");
+                    extras.putString("parameters", myvalue);
+                }
+                
+                Intent intent = new Intent();
+                intent.putExtra("pushBundle", extras);
+                intent.setClass(context.getApplicationContext(), PushHandlerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(intent);
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -181,7 +212,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         }
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, notifyString);
+        //updateContent(context, notifyString);
     }
 
     /**
@@ -207,7 +238,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString);
+        //updateContent(context, responseString);
     }
 
     /**
@@ -233,7 +264,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString);
+        //updateContent(context, responseString);
     }
 
     /**
@@ -256,7 +287,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString);
+        //updateContent(context, responseString);
     }
 
     /**
@@ -298,6 +329,7 @@ public class CordovaBDPushMessageReceiver extends FrontiaPushMessageReceiver {
         Utils.logStringCache = logText;
 
         Intent intent = new Intent();
+        //intent.putExtra("pushBundle", extras);
         intent.setClass(context.getApplicationContext(), PushHandlerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.getApplicationContext().startActivity(intent);

@@ -99,6 +99,9 @@
                     <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE"/>
                 </intent-filter>
             </service>
+            
+            <!-- 响应Push消息的Activity -->
+            <activity android:launchMode="singleInstance" android:name="com.plugin.baidupush.PushHandlerActivity"></activity>
             <!-- push结束 -->
 
             <!-- 在百度开发者中心查询应用的API Key -->
